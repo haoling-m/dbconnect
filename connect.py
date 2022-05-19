@@ -22,11 +22,6 @@ def connect():
         # display the PostgreSQL database server version
         db_version = cur.fetchone()
         print(db_version)
-
-        print('List all the parts:')
-        cur.execute('SELECT * FROM public. "Parts"')
-        part_list = cur.fetchone()
-        print(part_list)
        
 	# close the communication with the PostgreSQL
         cur.close()
