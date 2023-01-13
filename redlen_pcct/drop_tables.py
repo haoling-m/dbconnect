@@ -6,7 +6,7 @@ def create_tables():
     """ create tables in the PostgreSQL database"""
     commands = (
         """
-        DROP TABLE IF EXISTS partial_test_plans;
+        DROP TABLE IF EXISTS partial_test_plans CASCADE;
         """,
         """
         DROP TABLE IF EXISTS partial_customers CASCADE;

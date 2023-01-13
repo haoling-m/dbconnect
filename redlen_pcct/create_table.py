@@ -50,7 +50,11 @@ def create_tables():
             chain_file_test BOOL NOT NULL,
             set18_file_test BOOL NOT NULL,
             test_pattern_verification BOOL NOT NULL,
-            pulser_statistics_test BOOL NOT NULL
+            pulser_statistics_test BOOL NOT NULL,
+            pulser_ncp VARCHAR(255) NOT NULL,
+            num_ncp INTEGER NOT NULL, 
+            cc1_even TEXT NOT NULL,
+            cc1_odd TEXT NOT NULL
         )
         """,
         """ 
@@ -60,6 +64,10 @@ def create_tables():
             test_run_id INTEGER NOT NULL,
             customer_id INTEGER NOT NULL,
             partial_type_id INTEGER NOT NULL,
+            test_plan_id INTEGER NOT NULL,
+            detector_ver_build VARCHAR(255) NOT NULL,
+            technician_name VARCHAR(255),
+            test_date VARCHAR(255),
             partial_test_pass BOOL NOT NULL,
             side_0_asic INTEGER NOT NULL,
             side_1_asic INTEGER NOT NULL,
@@ -75,6 +83,9 @@ def create_tables():
                 ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (side_1_asic)
                 REFERENCES asic_tests (asic_test_id)
+                ON UPDATE CASCADE ON DELETE CASCADE,
+            FOREIGN KEY (test_plan_id)
+                REFERENCES partial_test_plans (test_plan_id)
                 ON UPDATE CASCADE ON DELETE CASCADE
         )
         """)
