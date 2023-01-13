@@ -12,10 +12,13 @@ def create_tables():
         DROP TABLE IF EXISTS partial_customers CASCADE;
         """,
         """
-        DROP TABLE IF EXISTS partial_types;
+        DROP TABLE IF EXISTS partial_types CASCADE;
+        """,
+        """
+        DROP TABLE IF EXISTS asic_tests CASCADE;
         """,
         """ 
-        DROP TABLE IF EXISTS partial_builders;
+        DROP TABLE IF EXISTS partial_build_tests CASCADE;
         """)
 
     conn = None

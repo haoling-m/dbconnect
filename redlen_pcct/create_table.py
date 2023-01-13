@@ -11,8 +11,20 @@ def create_tables():
         """
         CREATE TABLE partial_test_plans (
             test_plan_id SERIAL PRIMARY KEY,
+            test_plan_name VARCHAR(255) NOT NULL,
             customer_name VARCHAR(255) NOT NULL,
-            partial_type VARCHAR(255) NOT NULL
+            partial_type VARCHAR(255) NOT NULL,
+            detector_type VARCHAR(255) NOT NULL,
+            detector_sn VARCHAR(255) NOT NULL,
+            test_slot INTEGER NOT NULL,
+            ver_id_test BOOL NOT NULL,
+            die_id_test BOOL NOT NULL,
+            threshold_file_test BOOL NOT NULL,
+            chain_file_test BOOL NOT NULL,
+            set18_file_test BOOL NOT NULL,
+            test_pattern_verification BOOL NOT NULL,
+            pulser_statistics_test BOOL NOT NULL,
+            calibration_test BOOL NOT NULL
         )
         """,
         """
@@ -24,15 +36,45 @@ def create_tables():
         """
         CREATE TABLE partial_types (
             partial_type_id SERIAL PRIMARY KEY,
-            customer_name VARCHAR(255) NOT NULL
+            partial_type VARCHAR(255) NOT NULL
+        )
+        """,
+        """
+        CREATE TABLE asic_tests (
+            asic_test_id SERIAL PRIMARY KEY,
+            die_id VARCHAR(255) NOT NULL,
+            side INTEGER NOT NULL,
+            test_run INTEGER NOT NULL,
+            pass BOOL NOT NULL,
+            threshold_file_test BOOL NOT NULL,
+            chain_file_test BOOL NOT NULL,
+            set18_file_test BOOL NOT NULL,
+            test_pattern_verification BOOL NOT NULL,
+            pulser_statistics_test BOOL NOT NULL
         )
         """,
         """ 
-        CREATE TABLE partial_builders (
-            partial_sn VARCHAR(255) PRIMARY KEY,
+        CREATE TABLE partial_build_tests ( 
+            test_id SERIAL NOT NULL,          
+            partial_sn VARCHAR(255) NOT NULL,
+            test_run_id INTEGER NOT NULL,
             customer_id INTEGER NOT NULL,
+            partial_type_id INTEGER NOT NULL,
+            partial_test_pass BOOL NOT NULL,
+            side_0_asic INTEGER NOT NULL,
+            side_1_asic INTEGER NOT NULL,
+            PRIMARY KEY (partial_sn, test_run_id),
             FOREIGN KEY (customer_id)
                 REFERENCES partial_customers (customer_id)
+                ON UPDATE CASCADE ON DELETE CASCADE,
+            FOREIGN KEY (partial_type_id)
+                REFERENCES partial_types (partial_type_id)
+                ON UPDATE CASCADE ON DELETE CASCADE,
+            FOREIGN KEY (side_0_asic)
+                REFERENCES asic_tests (asic_test_id)
+                ON UPDATE CASCADE ON DELETE CASCADE,
+            FOREIGN KEY (side_1_asic)
+                REFERENCES asic_tests (asic_test_id)
                 ON UPDATE CASCADE ON DELETE CASCADE
         )
         """)
