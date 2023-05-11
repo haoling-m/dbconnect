@@ -1,7 +1,7 @@
 from configparser import ConfigParser
 
 
-def config(filename='redlen_pcct\database.ini', section='postgresql'):
+def config(filename='database.ini', section='postgresql'): # use /redlen_pcct/database.ini in vscode
     # create a parser
     parser = ConfigParser()
     # read config file
