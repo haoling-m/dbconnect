@@ -12,8 +12,6 @@ def create_tables():
         CREATE TABLE partial_test_plans (
             test_plan_id SERIAL PRIMARY KEY,
             test_plan_name VARCHAR(255) NOT NULL,
-            customer_name VARCHAR(255) NOT NULL,
-            partial_type VARCHAR(255) NOT NULL,
             detector_type VARCHAR(255) NOT NULL,
             detector_sn VARCHAR(255) NOT NULL,
             test_slot INTEGER NOT NULL,
