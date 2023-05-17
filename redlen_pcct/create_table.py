@@ -6,23 +6,24 @@ def create_tables():
     """ create tables in the PostgreSQL database"""
     commands = (
         """
-        DROP TABLE IF EXISTS partial_test_plans;
+        DROP TABLE IF EXISTS PartialTestPlan;
         """,
         """
         CREATE TABLE partial_test_plans (
-            test_plan_id SERIAL PRIMARY KEY,
-            test_plan_name VARCHAR(255) NOT NULL,
-            detector_type VARCHAR(255) NOT NULL,
-            detector_sn VARCHAR(255) NOT NULL,
-            test_slot INTEGER NOT NULL,
-            ver_id_test BOOL NOT NULL,
-            die_id_test BOOL NOT NULL,
-            threshold_file_test BOOL NOT NULL,
-            chain_file_test BOOL NOT NULL,
-            set18_file_test BOOL NOT NULL,
-            test_pattern_verification BOOL NOT NULL,
-            pulser_statistics_test BOOL NOT NULL,
-            calibration_test BOOL NOT NULL
+            TestPlanID SERIAL PRIMARY KEY,
+            TestPlanName VARCHAR(255),
+            DetectorType VARCHAR(255),
+            DetectorSN VARCHAR(255),
+            TestSlot smallint,
+            VerIDTest BOOL,
+            DieIDTest BOOL,
+            LVDSCalTest BOOL,
+            ThresholdTest BOOL,
+            CalChainTest BOOL,
+            Set18Test BOOL,
+            TestPatternTest BOOL,
+            PulserTest BOOL,
+            CalibrationTest BOOL
         )
         """,
         """
