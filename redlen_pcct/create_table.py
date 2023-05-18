@@ -27,15 +27,15 @@ def create_tables():
         )
         """,
         """
-        CREATE TABLE partial_customers (
-            customer_id SERIAL PRIMARY KEY,
-            customer_name VARCHAR(255) NOT NULL
+        CREATE TABLE PartialCustomers (
+            CustomerID SERIAL PRIMARY KEY,
+            CustomerName VARCHAR(255)
         )
         """,
         """
-        CREATE TABLE partial_types (
-            partial_type_id SERIAL PRIMARY KEY,
-            partial_type VARCHAR(255) NOT NULL
+        CREATE TABLE PartialTypes (
+            PartialTypeID SERIAL PRIMARY KEY,
+            PartialType VARCHAR(255)
         )
         """,
         """
