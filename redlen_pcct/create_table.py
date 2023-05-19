@@ -9,12 +9,12 @@ def create_tables():
         DROP TABLE IF EXISTS PartialTestPlan;
         """,
         """
-        CREATE TABLE partial_test_plans (
+        CREATE TABLE PartialTestPlan (
             TestPlanID SERIAL PRIMARY KEY,
             TestPlanName VARCHAR(255),
             DetectorType VARCHAR(255),
             DetectorSN VARCHAR(255),
-            TestSlot smallint,
+            TestSlot SMALLINT,
             VerIDTest BOOL,
             DieIDTest BOOL,
             LVDSCalTest BOOL,
@@ -39,43 +39,51 @@ def create_tables():
         )
         """,
         """
-        CREATE TABLE asic_tests (
-            asic_test_id SERIAL PRIMARY KEY,
-            die_id VARCHAR(255) NOT NULL,
-            side INTEGER NOT NULL,
-            test_run INTEGER NOT NULL,
-            pass BOOL NOT NULL,
-            threshold_file_test BOOL NOT NULL,
-            chain_file_test BOOL NOT NULL,
-            set18_file_test BOOL NOT NULL,
-            test_pattern_verification BOOL NOT NULL,
-            pulser_statistics_test BOOL NOT NULL,
-            pulser_ncp VARCHAR(255) NOT NULL,
-            num_ncp INTEGER NOT NULL, 
-            cc1_even TEXT NOT NULL,
-            cc1_odd TEXT NOT NULL
+        CREATE TABLE ResultPerAsic (
+            AsicTestID SERIAL PRIMARY KEY,
+            AsicIndex SMALLINT,
+            Side SMALLINT,
+            Die_ID BYTEA,
+            Ver_ID SMALLINT,           
+            TestPass BOOL,
+            LvdsTestPass BOOL,
+            CalibTestPass BOOL,
+            Set18TestPass BOOL,
+            ThresTestPass BOOL,            
+            PatternTestPass BOOL,
+            TemperatureTestPass BOOL,
+            PulserTestPass BOOL,
+            OddCounts INTEGER ARRAY,
+            EvenCounts INTEGER ARRAY,
+            Temperature_1 SMALLINT,
+            Temperature_2 SMALLINT,
+            NumNcp INTEGER
         )
         """,
         """ 
-        CREATE TABLE partial_build_tests ( 
-            test_id SERIAL NOT NULL,          
-            partial_sn VARCHAR(255) NOT NULL,
-            test_run_id INTEGER NOT NULL,
-            customer_id INTEGER NOT NULL,
-            partial_type_id INTEGER NOT NULL,
-            test_plan_id INTEGER NOT NULL,
-            detector_ver_build VARCHAR(255) NOT NULL,
-            technician_name VARCHAR(255),
-            test_date VARCHAR(255),
-            partial_test_pass BOOL NOT NULL,
-            side_0_asic INTEGER NOT NULL,
-            side_1_asic INTEGER NOT NULL,
-            PRIMARY KEY (partial_sn, test_run_id),
-            FOREIGN KEY (customer_id)
-                REFERENCES partial_customers (customer_id)
+        CREATE TABLE ResultPartial ( 
+            TestID SERIAL NOT NULL,          
+            PartialSerialNumber VARCHAR(255),
+            TestRunID INTEGER,
+            AsicCount SMALLINT,
+            PcbVersion SMALLINT,
+            FpgaVersion SMALLINT,
+            FpgaSubVersion SMALLINT,
+            FpgaDate DATE,
+            CustomerID INTEGER,
+            PartialTypeID SMALLINT,
+            TestPlanID SMALLINT,               
+            TechnicianName VARCHAR(255),
+            AsicSide_0 INTEGER,
+            AsicSide_1 INTEGER,       
+            TestPass BOOL,
+            TestTime DATE,           
+            PRIMARY KEY (PartialSerialNumber, TestRunID),
+            FOREIGN KEY (CustomerID)
+                REFERENCES PartialCustomers (CustomerID)
                 ON UPDATE CASCADE ON DELETE CASCADE,
-            FOREIGN KEY (partial_type_id)
-                REFERENCES partial_types (partial_type_id)
+            FOREIGN KEY (PartialTypeID)
+                REFERENCES PartialTypes (PartialTypeID)
                 ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (side_0_asic)
                 REFERENCES asic_tests (asic_test_id)
@@ -83,8 +91,8 @@ def create_tables():
             FOREIGN KEY (side_1_asic)
                 REFERENCES asic_tests (asic_test_id)
                 ON UPDATE CASCADE ON DELETE CASCADE,
-            FOREIGN KEY (test_plan_id)
-                REFERENCES partial_test_plans (test_plan_id)
+            FOREIGN KEY (TestPlanID)
+                REFERENCES PartialTestPlan (TestPlanID)
                 ON UPDATE CASCADE ON DELETE CASCADE
         )
         """)
