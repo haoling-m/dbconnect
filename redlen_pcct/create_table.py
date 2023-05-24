@@ -43,7 +43,7 @@ def create_tables():
             AsicTestID SERIAL PRIMARY KEY,
             AsicIndex SMALLINT,
             Side SMALLINT,
-            Die_ID BYTEA,
+            Die_ID SMALLINT ARRAY,
             Ver_ID SMALLINT,           
             TestPass BOOL,
             LvdsTestPass BOOL,
@@ -57,7 +57,7 @@ def create_tables():
             EvenCounts INTEGER ARRAY,
             Temperature_1 SMALLINT,
             Temperature_2 SMALLINT,
-            NumNcp INTEGER
+            NumNcp SMALLINT
         )
         """,
         """ 
@@ -72,7 +72,7 @@ def create_tables():
             FpgaDate DATE,
             CustomerID INTEGER,
             PartialTypeID SMALLINT,
-            TestPlanID SMALLINT,               
+            TestPlanID INTEGER,               
             TechnicianName VARCHAR(255),
             AsicSide_0 INTEGER,
             AsicSide_1 INTEGER,       
@@ -85,11 +85,11 @@ def create_tables():
             FOREIGN KEY (PartialTypeID)
                 REFERENCES PartialTypes (PartialTypeID)
                 ON UPDATE CASCADE ON DELETE CASCADE,
-            FOREIGN KEY (side_0_asic)
-                REFERENCES asic_tests (asic_test_id)
+            FOREIGN KEY (AsicSide_0)
+                REFERENCES ResultPerAsic (AsicTestID)
                 ON UPDATE CASCADE ON DELETE CASCADE,
-            FOREIGN KEY (side_1_asic)
-                REFERENCES asic_tests (asic_test_id)
+            FOREIGN KEY (AsicSide_1)
+                REFERENCES ResultPerAsic (AsicTestID)
                 ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY (TestPlanID)
                 REFERENCES PartialTestPlan (TestPlanID)
